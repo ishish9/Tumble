@@ -3,6 +3,12 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 .utmp/
+/[Aa]ssets/[Aa]llIn1VfxToolkit/
+/[Aa]ssets/[Cc]ube World Set URP - Proto Series/
+/[Aa]ssets/[Dd]inoFracture/
+/[Aa]ssets/[Pp]olyperfect/
+/[Aa]ssets/[Ss]cenes/
+/[Aa]ssets/[Ss]tylizedWater2
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
