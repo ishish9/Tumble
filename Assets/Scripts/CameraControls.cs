@@ -11,16 +11,26 @@ public class CameraControls : MonoBehaviour
         Vector3 desiredp = ObjectToFollow.position + offset;
         Vector3 smoothedp = Vector3.Lerp(transform.position, desiredp, smoothSpeed * Time.deltaTime);
         transform.position = smoothedp;
-    }  
+    }
+
+    private void OnEnable()
+    {
+        Manager.OnSendPlayerTransform += UpdateCameraFollow;
+    }
+
+    private void OnDisable()
+    {
+        Manager.OnSendPlayerTransform -= UpdateCameraFollow;
+    }
 
     public void SmoothSpeedStart()
     {
         smoothSpeed = 3;
     }
 
-    public void UpdateCameraFollow(Transform newObjectInstance)
+    public void UpdateCameraFollow(Transform newObjectTransform)
     {
-        ObjectToFollow = newObjectInstance;
+        ObjectToFollow = newObjectTransform;
     }
 
 }

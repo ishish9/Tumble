@@ -8,9 +8,9 @@ public class Coin : MonoBehaviour
     [SerializeField] private int customCoinAmount;
     [SerializeField] private bool customAdd;
 
-    void Update()
+    void FixedUpdate()
     {
-        transform.Rotate(Vector3.up * 200 * Time.deltaTime);
+        //transform.Rotate(Vector3.up * 200 * Time.deltaTime);
     }
 
     private void OnTriggerEnter(Collider other)

@@ -7,8 +7,7 @@ using UnityEngine;
 
 public class Manager : MonoBehaviour
 {
-    public CameraControls camera;
-    [SerializeField] private Transform Player;
+    private Transform Player;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private Transform restartPosition;
     [SerializeField] private Transform levelDistance;
@@ -19,8 +18,7 @@ public class Manager : MonoBehaviour
     [SerializeField] private GameObject uiMenu;
     [SerializeField] private TextMeshProUGUI distanceDisplay;
     [SerializeField] private TextMeshProUGUI coinDisplay;
-    public delegate void SendTransform(Transform t);
-    public static event SendTransform OnSendTransform;
+    public static event Action <Transform> OnSendPlayerTransform;
     public static event Action OnAdLoad;
     public static event Action OnAdShow;
     public static event Action OnMenuToggle;
@@ -35,26 +33,21 @@ public class Manager : MonoBehaviour
 
     private void Awake()
     {
-    }
-
-    private void Start()
-    {
-        GameObject newObject = Instantiate(playerObj, restartPosition.position, Quaternion.identity);
-        Transform newObjectTransform = newObject.transform;
-        camera.UpdateCameraFollow(newObjectTransform);
-        OnSendTransform(newObjectTransform);
-        Player = newObjectTransform;
+        GameObject CreatePlayerObject = Instantiate(playerObj, restartPosition.position, Quaternion.identity);
+        Transform PlayerTransform = CreatePlayerObject.transform;
+        OnSendPlayerTransform(PlayerTransform);
+        Player = PlayerTransform;
         AudioManager.Instance.PlayMusic(AudioManager.Instance.audioClips.Music);
     }
 
     private void Update()
     {
-        float dist = Vector3.Distance(Player.position, levelDistance.position);
+        //float dist = Vector3.Distance(Player.position, levelDistance.position);
 
-        if (distanceDisplayOn)
-        {
-            distanceDisplay.text = dist.ToString("0.0");
-        }
+        //if (distanceDisplayOn)
+       // {
+       //     distanceDisplay.text = dist.ToString("0.0");
+        //}
     }
 
     void OnEnable()
@@ -88,12 +81,11 @@ public class Manager : MonoBehaviour
         GameObject FracturesContainer = GameObject.Find("Player(Clone) - Fracture Root");
         Destroy(FracturesContainer);
         GameObject newObject = Instantiate(playerObj, restartPosition.position, Quaternion.identity);
-        Transform newObjectTransform = newObject.transform;
-        camera.UpdateCameraFollow(newObjectTransform);
-        OnSendTransform(newObjectTransform);
+        Transform PlayerTransform = newObject.transform;
+        OnSendPlayerTransform(PlayerTransform);
         OnMenuDisable(false);
         distanceDisplay.text = "0";
-        Player = newObjectTransform;
+        Player = PlayerTransform;
         if (checkPoint)
         {
             coins = coinsCheckpoint;

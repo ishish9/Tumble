@@ -32,12 +32,12 @@ public class LookAt : MonoBehaviour
 
     void OnEnable()
     {
-        Manager.OnSendTransform += SetPlayerTransform;
+        Manager.OnSendPlayerTransform += SetPlayerTransform;
     }
 
     void OnDisable()
     {
-        Manager.OnSendTransform -= SetPlayerTransform;
+        Manager.OnSendPlayerTransform -= SetPlayerTransform;
     }
 
     public void SetPlayerTransform(Transform player)
