@@ -24,6 +24,17 @@ public class MainMenu : MonoBehaviour
         }
     }
 
+    public void QualitySettingLow()
+    {
+        QualitySettings.SetQualityLevel(0, true);
+    }
+
+    public void QualitySettingHigh()
+    {
+        QualitySettings.SetQualityLevel(1, true);
+    }
+   
+
     public void ExitApp()
     {
         StartCoroutine(fade());
