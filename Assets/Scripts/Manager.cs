@@ -37,7 +37,25 @@ public class Manager : MonoBehaviour
         Transform PlayerTransform = CreatePlayerObject.transform;
         OnSendPlayerTransform(PlayerTransform);
         Player = PlayerTransform;
-        AudioManager.Instance.PlayMusic(AudioManager.Instance.audioClips.Music);
+     
+    }
+
+    private void Start()
+    {
+        if (PlayerPrefs.GetInt("musicSetting") == 1)
+        {
+            AudioManager.Instance.PlayMusic(AudioManager.Instance.audioClips.Music);
+        }
+
+        if (PlayerPrefs.GetInt("QualitySetting") == 0) 
+        {
+            QualitySettings.SetQualityLevel(0, true);
+        }
+        else
+        {
+            QualitySettings.SetQualityLevel(1, true);
+        }
+
     }
 
     private void Update()

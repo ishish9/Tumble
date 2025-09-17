@@ -1,18 +1,19 @@
+using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Events;
-using UnityEngine.UI;
-using System.Collections;
 
 public class Menu : MonoBehaviour
 {
     ActionMap_1 actionsWrapper2;
     [SerializeField] private GameObject menuUI;
-    [SerializeField] private GameObject PostPross;
+    [SerializeField] private GameObject settingsUI;
     [SerializeField] private GameObject fadeOut;
-    [SerializeField] private Button lowButton;
-    [SerializeField] private Button mediumButton;
-    [SerializeField] private Button highButton;
+    [SerializeField] private TextMeshProUGUI musicToggleText;
+    [SerializeField] private AudioSource music;
+    public static event Action<bool> OnHighSetting;
+
     public bool MenuDisabled;
 
     private void Awake()
@@ -56,7 +57,7 @@ public class Menu : MonoBehaviour
         // Deactivates Menu //        
         else
         {
-            if (PlayerPrefs.GetInt("musicOnOff") == 0)
+            if (PlayerPrefs.GetInt("musicSetting") == 0)
             {
                 AudioManager.Instance.MusicOff();
             }
@@ -67,7 +68,9 @@ public class Menu : MonoBehaviour
             AudioManager.Instance.PlaySoundEffects(AudioManager.Instance.audioClips.MenuOpen);
             AudioManager.Instance.MasterVolumeControl(1.0f);
             menuUI.gameObject.SetActive(false);
-        }
+            settingsUI.gameObject.SetActive(false);
+
+            }
         }
     }
 
@@ -81,12 +84,13 @@ public class Menu : MonoBehaviour
                 AudioManager.Instance.PlaySoundEffects(AudioManager.Instance.audioClips.MenuOpen);
                 AudioManager.Instance.MasterVolumeControl(0.4f);
                 menuUI.gameObject.SetActive(true);
+                settingsUI.gameObject.SetActive(false);
             }
 
             // Deactivates Menu //        
             else
             {
-                if (PlayerPrefs.GetInt("musicOnOff") == 0)
+                if (PlayerPrefs.GetInt("musicSetting") == 0)
                 {
                     AudioManager.Instance.MusicOff();
                 }
@@ -97,59 +101,43 @@ public class Menu : MonoBehaviour
                 AudioManager.Instance.PlaySoundEffects(AudioManager.Instance.audioClips.MenuOpen);
                 AudioManager.Instance.MasterVolumeControl(1.0f);
                 menuUI.gameObject.SetActive(false);
+                settingsUI.gameObject.SetActive(false);
+
             }
         }
-    } 
+    }
 
-    // Highlights button of currently selected graphics settings.
-    public void SelectGraphicsButton()
+    public void MusicToggleText()
     {
-        if (PlayerPrefs.GetInt("PlayerHasSetQualityLevel") == 1)
+        AudioManager.Instance.ToggleMusic();
+        if (music.mute)
         {
-            switch (PlayerPrefs.GetInt("QualitySetting"))
-            {
-                case 0:
-                    lowButton.Select();
-                    break;
-                case 1:
-                    mediumButton.Select();
-                    break;
-                case 2:
-                    highButton.Select();
-                    break;               
-            }
+            musicToggleText.text = "Music off";
+            PlayerPrefs.SetInt("musicSetting", 0);
+            PlayerPrefs.Save();
         }
         else
         {
-            mediumButton.Select();
+            musicToggleText.text = "Music on";
+            PlayerPrefs.SetInt("musicSetting", 1);
+            PlayerPrefs.Save();
         }
     }
 
-    public void LowSetting()
+    public void QualitySettingLow()
     {
-        PostPross.SetActive(false);
         QualitySettings.SetQualityLevel(0, true);
-        PlayerPrefs.SetInt("PlayerHasSetQualityLevel", 1);
         PlayerPrefs.SetInt("QualitySetting", 0);
         PlayerPrefs.Save();
+        OnHighSetting?.Invoke(false);
     }
 
-    public void MediumSetting()
+    public void QualitySettingHigh()
     {
-        PostPross.SetActive(true);
         QualitySettings.SetQualityLevel(1, true);
-        PlayerPrefs.SetInt("PlayerHasSetQualityLevel", 1);
         PlayerPrefs.SetInt("QualitySetting", 1);
         PlayerPrefs.Save();
-    }
-
-    public void HighSetting()
-    {
-        PostPross.SetActive(true);
-        QualitySettings.SetQualityLevel(2, true);
-        PlayerPrefs.SetInt("PlayerHasSetQualityLevel", 1);
-        PlayerPrefs.SetInt("QualitySetting", 2);
-        PlayerPrefs.Save();
+        OnHighSetting?.Invoke(true);
     }
 
     public void ExitApp()

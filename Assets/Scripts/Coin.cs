@@ -7,10 +7,14 @@ public class Coin : MonoBehaviour
     [SerializeField] private GameObject sparkle;
     [SerializeField] private int customCoinAmount;
     [SerializeField] private bool customAdd;
+    private bool highQualitySpin = false;
 
-    void FixedUpdate()
+    void Update()
     {
-        //transform.Rotate(Vector3.up * 200 * Time.deltaTime);
+        if (highQualitySpin)
+        {
+            transform.Rotate(Vector3.up * 200 * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -29,5 +33,20 @@ public class Coin : MonoBehaviour
             }
             this.gameObject.SetActive(false);
         }
+    }
+
+    private void OnEnable()
+    {
+        MainMenu.OnHighSetting += SetQualitySpin;
+    }
+
+    private void OnDisable()
+    {
+        MainMenu.OnHighSetting -= SetQualitySpin;
+
+    }
+    private void SetQualitySpin(bool b)
+    {
+        highQualitySpin = b;
     }
 }
