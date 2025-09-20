@@ -68,11 +68,11 @@ public class AudioManager : MonoBehaviour
         MusicSource.mute = !MusicSource.mute;
         if (MusicSource.mute)
         {
-            PlayerPrefs.SetInt("musicOnOff", 0);
+            PlayerPrefs.SetInt("musicSetting", 0);
         }
         else
         {
-            PlayerPrefs.SetInt("musicOnOff", 1);
+            PlayerPrefs.SetInt("musicSetting", 1);
         }
     }
 

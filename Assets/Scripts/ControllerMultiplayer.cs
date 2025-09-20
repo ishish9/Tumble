@@ -47,13 +47,19 @@ public class ControllerMultiplayer : MonoBehaviour
     public void OnEnable()
     {
         actionsWrapper.Player.Enable();
+        Menu.OnDisableJump += DisableJump;
+        Menu.OnEnableJump += EnableJump;
+
     }
     // Menu ON
     public void OnDisable()
     {
         actionsWrapper.Player.Disable();
+        Menu.OnDisableJump -= DisableJump;
+        Menu.OnEnableJump -= EnableJump;
+
     }
-   
+
     // Jump
     public void OnJump(InputAction.CallbackContext context)
     {
@@ -76,6 +82,16 @@ public class ControllerMultiplayer : MonoBehaviour
                 AudioManager.Instance.PlaySoundEffects(AudioManager.Instance.audioClips.JumpDouble);
             }
               
+    }
+
+    private void DisableJump()
+    {
+        actionsWrapper.Player.Jump.Disable();
+    }
+
+    private void EnableJump()
+    {
+        actionsWrapper.Player.Jump.Enable();
     }
 
 

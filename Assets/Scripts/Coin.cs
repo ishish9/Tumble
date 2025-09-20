@@ -37,12 +37,12 @@ public class Coin : MonoBehaviour
 
     private void OnEnable()
     {
-        MainMenu.OnHighSetting += SetQualitySpin;
+        Menu.OnHighSetting += SetQualitySpin;
     }
 
     private void OnDisable()
     {
-        MainMenu.OnHighSetting -= SetQualitySpin;
+        Menu.OnHighSetting -= SetQualitySpin;
 
     }
     private void SetQualitySpin(bool b)

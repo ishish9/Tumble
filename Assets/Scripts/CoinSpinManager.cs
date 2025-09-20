@@ -9,7 +9,7 @@ public class CoinSpinManager : MonoBehaviour
     [SerializeField] private List <Transform> coinArray = new List<Transform>();
     private int index;
     private int childCount;
-    private bool highQuality;
+    private bool highQuality = true;
     void Start()
     {
         childCount = gameObject.transform.childCount;
@@ -40,12 +40,12 @@ public class CoinSpinManager : MonoBehaviour
 
     private void OnEnable()
     {
-        MainMenu.OnHighSetting += SetActive;
+        Menu.OnHighSetting += SetActive;
     }
 
     private void OnDisable()
     {
-        MainMenu.OnHighSetting -= SetActive;
+        Menu.OnHighSetting -= SetActive;
     }
 
     private void SetActive(bool b)

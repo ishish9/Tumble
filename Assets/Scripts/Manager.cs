@@ -37,26 +37,9 @@ public class Manager : MonoBehaviour
         Transform PlayerTransform = CreatePlayerObject.transform;
         OnSendPlayerTransform(PlayerTransform);
         Player = PlayerTransform;
-     
-    }
-
-    private void Start()
-    {
-        if (PlayerPrefs.GetInt("musicSetting") == 1)
-        {
-            AudioManager.Instance.PlayMusic(AudioManager.Instance.audioClips.Music);
-        }
-
-        if (PlayerPrefs.GetInt("QualitySetting") == 0) 
-        {
-            QualitySettings.SetQualityLevel(0, true);
-        }
-        else
-        {
-            QualitySettings.SetQualityLevel(1, true);
-        }
 
     }
+
 
     private void Update()
     {
@@ -88,7 +71,6 @@ public class Manager : MonoBehaviour
         CheckPoint.OnCheckPointTriggered -= CheckPointTrigger;
         InterstitialAdScript.OnAdCheck -= AdcloseToggle;
         KillPlayer.OnFall -= RestartFall;
-
     }
 
     public void Restart()
